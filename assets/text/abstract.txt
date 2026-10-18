@@ -1,0 +1,14 @@
+融合动态粒子与表面效应的三维高斯场景多天气可控合成
+韩营营1)，刘何祎1)，吉娜烨*1,2)，高福星1,2)
+1) (浙江传媒学院媒体工程学院  杭州  310018)
+2) (全省影视媒体技术研究重点实验室  杭州  310018) 
+(jinaye@cuz.edu.cn)
+摘  要：面向虚拟制片与三维内容生成的天气合成任务，需在保持原始场景结构的同时，生成真实、稳定且可控的天气效果。传统工业级天气特效通常依赖人工建模与专用仿真流程，而生成式图像与视频编辑虽能实现显著的天气变化，但在跨视角一致性、表面附着及天气与场景交互方面仍存在不足。针对上述问题，本文提出一种融合三维高斯泼溅与显式表面几何的雪、雨、雾天气合成方法。该方法采用3DGS表示场景外观，结合PGSR恢复显式网格，并根据表面朝向、天空可见性、局部结构与地形高度约束天气分布进行建模；在此基础上生成积雪与积水，模拟雨滴溅落产生涟漪，并结合场景深度与空间密度变化计算雾效。实验在6个室外场景上进行，与基于生成式视频编辑/三维重建的现有天气合成方法相比，所提方法在雪、雨、雾三类天气条件下的CLIP-DS均取得最高值；用户测评的4项评价指标的总体偏好率均超过70%。结果表明，所提方法能够较好地保持场景内容不变性与跨视角一致性，天气合成的真实感、物理合理性与可控性显著提升。
+关键词：三维高斯泼溅；天气合成；表面几何恢复；动态粒子；新视角渲染
+英文
+Controllable Multi-Weather Synthesis for 3D Gaussian Scenes with Dynamic Particles and Surface Effects
+Han Yingying1), Liu Heyi1), Ji Naye*1,2) , and Gao Fuxing1,2)
+1) (College of Media Engineering,Communication University of Zhejiang, Hangzhou  310018) 
+2) (Zhejiang Key Laboratory of Film and TV Media Technology, Communication University of Zhejiang, Hangzhou  310018)
+Abstract: Weather synthesis for virtual production and 3D content generation requires realistic, stable, and controllable weather effects while preserving the structure of the original scene. Traditional industrial weather effects generally rely on manual modeling and dedicated simulation pipelines, whereas generative image and video editing methods, despite their strong ability to produce apparent weather changes, still face limitations in cross-view consistency, surface attachment, and weather–scene interaction. To address these issues, a snow, rain, and fog synthesis method that combines 3DGS with explicit surface geometry is proposed. The method adopts 3DGS to represent scene appearance and uses PGSR to recover an explicit mesh. Surface orientation, sky visibility, local structure, and terrain height are then computed to constrain the spatial distribution of weather effects. Based on these geometric cues, snow accumulation and puddles are generated, rain-drop-induced ripples are simulated, and fog attenuation is computed according to scene depth and spatial density variation. Dynamic raindrops, snowflakes, and fog are represented by Gaussian primitives and jointly rendered with the original scene. Experiments are conducted on six outdoor scenes and compared with generative video editing methods and reconstruction-based weather synthesis methods. The proposed method achieves the highest CLIP-DS scores for snow, rain, and fog. The overall preference rates of user study for all four evaluation criteria exceed 70%. The results demonstrate that the proposed method can effectively preserve scene content and cross-view consistency while improving the realism, physical plausibility, and controllability of multi-weather synthesis.
+Key words: 3D Gaussian Splatting; weather synthesis; surface geometry reconstruction; dynamic particles; novel view rendering

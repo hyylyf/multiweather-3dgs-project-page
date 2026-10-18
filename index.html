@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="融合动态粒子与表面效应的三维高斯场景多天气可控合成项目主页">
+  <title>三维高斯场景多天气可控合成</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header class="hero section" id="home">
+      <div class="container hero-inner">
+        <h1>融合动态粒子与表面效应的三维高斯场景多天气可控合成</h1>
+        <p class="english-title">Controllable Multi-Weather Synthesis for 3D Gaussian Scenes with Dynamic Particles and Surface Effects</p>
+        <div class="author-block">
+          <p class="authors">韩营营<sup>1)</sup>，刘何祎<sup>1)</sup>，吉娜烨<sup>*1,2)</sup>，高福星<sup>1,2)</sup></p>
+          <p class="affiliation">1) 浙江传媒学院媒体工程学院　杭州　310018</p>
+          <p class="affiliation">2) 全省影视媒体技术研究重点实验室　杭州　310018</p>
+        </div>
+        <div class="hero-actions" aria-label="项目链接">
+          <a class="project-link is-disabled" href="#" aria-disabled="true" data-disabled-link>论文 <span>Coming soon</span></a>
+          <a class="project-link is-disabled" href="#" aria-disabled="true" data-disabled-link>代码 <span>Coming soon</span></a>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="abstract" aria-labelledby="abstract-title">
+      <div class="container narrow">
+        <div class="section-heading centered"><h2 id="abstract-title">摘要</h2></div>
+        <div class="abstract-copy" id="abstract-copy" data-abstract-path="assets/text/abstract.txt">
+          <p>面向虚拟制片与三维内容生成的天气合成任务，需在保持原始场景结构的同时，生成真实、稳定且可控的天气效果。传统工业级天气特效通常依赖人工建模与专用仿真流程，而生成式图像与视频编辑虽能实现显著的天气变化，但在跨视角一致性、表面附着及天气与场景交互方面仍存在不足。针对上述问题，本文提出一种融合三维高斯泼溅与显式表面几何的雪、雨、雾天气合成方法。该方法采用3DGS表示场景外观，结合PGSR恢复显式网格，并根据表面朝向、天空可见性、局部结构与地形高度约束天气分布进行建模；在此基础上生成积雪与积水，模拟雨滴溅落产生涟漪，并结合场景深度与空间密度变化计算雾效。实验在6个室外场景上进行，与基于生成式视频编辑/三维重建的现有天气合成方法相比，所提方法在雪、雨、雾三类天气条件下的CLIP-DS均取得最高值；用户测评的4项评价指标的总体偏好率均超过70%。结果表明，所提方法能够较好地保持场景内容不变性与跨视角一致性，天气合成的真实感、物理合理性与可控性显著提升。</p>
+        </div>
+        <figure class="result-figure framework-figure" data-image-fallback>
+          <img src="assets/images/framework.png" alt="论文方法整体框架图">
+          <div class="media-fallback" role="status">方法框架图暂不可用</div>
+          <figcaption>方法整体框架</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="weather-simulation" aria-labelledby="weather-title">
+      <div class="container">
+        <div class="section-heading centered">
+          <h2 id="weather-title">天气模拟结果</h2>
+          <p class="section-subtitle">不同天气、场景与方法下的生成结果对比</p>
+        </div>
+        <div class="controls-panel">
+          <div class="control-row"><span class="control-label">天气</span>
+            <div class="segmented-control" role="group" aria-label="选择天气">
+              <button class="choice-button is-active" type="button" data-weather="snow" aria-pressed="true">雪</button>
+              <button class="choice-button" type="button" data-weather="rain" aria-pressed="false">雨</button>
+              <button class="choice-button" type="button" data-weather="fog" aria-pressed="false">雾</button>
+            </div>
+          </div>
+          <div class="control-row"><span class="control-label">场景</span>
+            <div class="segmented-control" role="group" aria-label="选择场景">
+              <button class="choice-button is-active" type="button" data-scene="garden" aria-pressed="true">Garden</button>
+              <button class="choice-button" type="button" data-scene="bicycle" aria-pressed="false">Bicycle</button>
+              <button class="choice-button" type="button" data-scene="treehill" aria-pressed="false">Treehill</button>
+              <button class="choice-button" type="button" data-scene="truck" aria-pressed="false">Truck</button>
+            </div>
+          </div>
+          <div class="control-row"><span class="control-label">方法</span>
+            <div class="segmented-control" role="group" aria-label="选择方法">
+              <button class="choice-button is-active" type="button" data-method="ours" aria-pressed="true">本文方法</button>
+              <button class="choice-button" type="button" data-method="weatheredit" aria-pressed="false">WeatherEdit</button>
+              <button class="choice-button" id="geometry-method-button" type="button" data-method="climatenerf" aria-pressed="false">ClimateNeRF</button>
+              <button class="choice-button" type="button" data-method="ditto" aria-pressed="false">Ditto</button>
+              <button class="choice-button" type="button" data-method="vace" aria-pressed="false">VACE-Wan2.1-1.3B</button>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-stage" id="weather-stage" role="slider" tabindex="0" aria-label="拖动查看原始场景与天气结果对比" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <video class="comparison-video" id="original-video" autoplay muted loop playsinline preload="auto" aria-label="原始场景视频"></video>
+          <div class="comparison-after" aria-hidden="true">
+            <video class="comparison-video" id="weather-video" autoplay muted loop playsinline preload="auto" aria-label="天气模拟结果视频"></video>
+          </div>
+          <span class="comparison-label comparison-label-left">原始场景</span>
+          <span class="comparison-label comparison-label-right" id="weather-after-label">雪</span>
+          <span class="comparison-divider" aria-hidden="true"><span class="comparison-handle">↔</span></span>
+          <div class="video-status is-visible is-loading" id="weather-status" role="status" aria-live="polite">
+            <span class="loading-dot" aria-hidden="true"></span><span class="status-text">正在加载视频…</span>
+          </div>
+        </div>
+        <p class="current-selection" id="weather-selection">雪 · Garden · 本文方法</p>
+      </div>
+    </section>
+
+    <section class="section" id="controllable-weather" aria-labelledby="control-title">
+      <div class="container">
+        <div class="section-heading centered">
+          <h2 id="control-title">可控天气效果</h2>
+          <p class="section-subtitle">以 Garden 场景为例展示不同天气强度下的合成结果</p>
+        </div>
+        <div class="controls-panel compact">
+          <div class="control-row"><span class="control-label">天气</span>
+            <div class="segmented-control" role="group" aria-label="选择可控天气类型">
+              <button class="choice-button is-active" type="button" data-control-weather="snow" aria-pressed="true">雪</button>
+              <button class="choice-button" type="button" data-control-weather="rain" aria-pressed="false">雨</button>
+              <button class="choice-button" type="button" data-control-weather="fog" aria-pressed="false">雾</button>
+            </div>
+          </div>
+          <div class="control-row"><span class="control-label">强度</span>
+            <div class="segmented-control" role="group" aria-label="选择天气强度">
+              <button class="choice-button" type="button" data-level="low" aria-pressed="false">低</button>
+              <button class="choice-button is-active" type="button" data-level="medium" aria-pressed="true">中</button>
+              <button class="choice-button" type="button" data-level="high" aria-pressed="false">高</button>
+            </div>
+          </div>
+        </div>
+        <div class="video-stage" id="control-stage">
+          <video id="control-video" autoplay muted loop playsinline controls preload="metadata" aria-label="可控天气效果视频"></video>
+          <div class="video-status is-visible is-loading" id="control-status" role="status" aria-live="polite">
+            <span class="loading-dot" aria-hidden="true"></span><span class="status-text">正在加载视频…</span>
+          </div>
+        </div>
+        <p class="current-selection" id="control-selection">雪 · 中等强度</p>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="user-study" aria-labelledby="study-title">
+      <div class="container narrow">
+        <div class="section-heading centered"><h2 id="study-title">用户研究</h2></div>
+        <div class="study-intro">
+          <p>我们开展了一项包含 40 名参与者的双选强制选择（2AFC）用户研究。参与者观看本文方法与基线方法生成的视频对，并从以下四个维度选择表现更好的结果：</p>
+          <dl class="study-metrics">
+            <div><dt>VR</dt><dd>视觉真实感</dd></div>
+            <div><dt>PP</dt><dd>物理合理性</dd></div>
+            <div><dt>TC</dt><dd>时间/多视角一致性</dd></div>
+            <div><dt>SP</dt><dd>场景保持性</dd></div>
+          </dl>
+          <p>每名参与者完成 24 组视频比较，共收集 960 次视频对比较和 3,840 次指标选择。</p>
+        </div>
+        <figure class="result-figure" data-image-fallback>
+          <img src="assets/images/user_study_overall.png" alt="2AFC 用户研究总体偏好率柱状图">
+          <div class="media-fallback" role="status">用户研究结果图暂不可用</div>
+          <figcaption>本文方法在 VR、PP、TC 和 SP 上的总体用户偏好率分别为：77.29%、71.77%、70.00% 和 79.58%。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="quantitative-results" aria-labelledby="quantitative-title">
+      <div class="container narrow">
+        <div class="section-heading centered">
+          <h2 id="quantitative-title">定量结果</h2>
+          <p class="section-subtitle">三种天气条件下不同方法的定量性能比较</p>
+        </div>
+        <figure class="result-figure" data-image-fallback>
+          <img src="assets/images/quantitative_results.png" alt="三种天气条件下不同方法的定量结果对比表">
+          <div class="media-fallback" role="status">定量结果图暂不可用</div>
+          <figcaption>CLIP-DS 和 CLIP-S 越高越好；GW-RGB 和 GW-LPIPS 越低越好。</figcaption>
+        </figure>
+        <div class="metric-notes">
+          <span><strong>GW-RGB</strong> = Geometry-Warped RGB Error</span>
+          <span><strong>GW-LPIPS</strong> = Geometry-Warped LPIPS</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="container"><p>融合动态粒子与表面效应的三维高斯场景多天气可控合成 · Project Page</p></div></footer>
+  <script src="script.js"></script>
+</body>
+</html>
